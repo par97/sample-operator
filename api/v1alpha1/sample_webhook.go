@@ -17,6 +17,8 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"fmt"
+
 	"k8s.io/apimachinery/pkg/runtime"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
@@ -24,7 +26,7 @@ import (
 )
 
 // log is for logging in this package.
-var samplelog = logf.Log.WithName("sample-resource")
+var samplelog = logf.Log.WithName("sample webhook")
 
 func (r *Sample) SetupWebhookWithManager(mgr ctrl.Manager) error {
 	return ctrl.NewWebhookManagedBy(mgr).
@@ -54,7 +56,9 @@ var _ webhook.Validator = &Sample{}
 func (r *Sample) ValidateCreate() error {
 	samplelog.Info("validate create", "name", r.Name)
 
-	// TODO(user): fill in your validation logic upon object creation.
+	if r.Spec.Foo == "forbidden_foo" {
+		return fmt.Errorf("foo value of 'forbidden_foo' is not allowed")
+	}
 	return nil
 }
 
