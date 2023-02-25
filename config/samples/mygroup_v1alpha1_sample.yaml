@@ -1,6 +1,6 @@
 apiVersion: mygroup.example.com/v1alpha1
 kind: Sample
 metadata:
-  name: s1
+  name: sample1
 spec:
   foo: foo1
