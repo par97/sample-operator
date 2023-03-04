@@ -56,7 +56,11 @@ func TestAPIs(t *testing.T) {
 }
 
 var _ = BeforeSuite(func() {
-	logf.SetLogger(zap.New(zap.UseFlagOptions(&zap.Options{TimeEncoder: zapcore.ISO8601TimeEncoder}), zap.WriteTo(GinkgoWriter), zap.UseDevMode(true)))
+	opts := zap.Options{
+		Development: true,
+		TimeEncoder: zapcore.ISO8601TimeEncoder,
+	}
+	logf.SetLogger(zap.New(zap.UseFlagOptions(&opts), zap.WriteTo(GinkgoWriter)))
 
 	ctx, cancel = context.WithCancel(context.TODO())
 
